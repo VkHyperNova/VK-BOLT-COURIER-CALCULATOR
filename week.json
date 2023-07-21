@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "date": "13:52 (21.07.2023)",
+    "income": 100,
+    "petrol": 0,
+    "revenue": 0,
+    "hours": 0,
+    "tax": 0,
+    "cash": 0
+  },
+  {
+    "id": 2,
+    "date": "13:54 (21.07.2023)",
+    "income": 0,
+    "petrol": 0,
+    "revenue": 0,
+    "hours": 0,
+    "tax": 0,
+    "cash": 20
+  },
+  {
+    "id": 3,
+    "date": "14:03 (21.07.2023)",
+    "income": 0,
+    "petrol": 5,
+    "revenue": 0,
+    "hours": 5,
+    "tax": 0,
+    "cash": 0
+  }
+]
