@@ -18,10 +18,10 @@ var DB_URL = "./week.json"
 
 func main() {
 
-	CHECK_JSON()
+	// CHECK_JSON()
 
 	// Open data
-	WEEK_DATABASE = OPEN_JSON()
+	// WEEK_DATABASE = OPEN_JSON()
 
 	// Start commandline
 	CL()
@@ -58,29 +58,24 @@ func CL() {
 
 func Add() {
 
-	INCOME_TODAY = Question("Income: ")
-	fmt.Println("Set to: ", INCOME_TODAY)
+	INCOME = Question("Income: ")
 
-	PETROL_TODAY = Question("Petrol: ")
-	fmt.Println("Set to: ", PETROL_TODAY)
+	CASH = Question("Cash: ")
 
-	HOURS_TODAY = Question("Hours: ")
-	fmt.Println("Set to: ", HOURS_TODAY)
+	PETROL = Question("Petrol: ")
 
-	CASH_TODAY = Question("Cash: ")
-	fmt.Println("Set to: ", CASH_TODAY)
+	HOURS = Question("Hours: ")
 
-	Save()
 	CL()
 }
 
-func Save() {
-	DAY_DATA := CONSTRUCT_DAY_TRANSACTIONS()
-	WEEK_DATABASE = append(WEEK_DATABASE, DAY_DATA)
-	DAY_DATA_AS_BYTE := Convert_To_Byte(WEEK_DATABASE)
-	WRITE_FILE(DAY_DATA_AS_BYTE)
-	fmt.Println("<< Updated! >>")
-}
+// func Save() {
+// 	DAY_DATA := CONSTRUCT_DAY_TRANSACTIONS()
+// 	WEEK_DATABASE = append(WEEK_DATABASE, DAY_DATA)
+// 	DAY_DATA_AS_BYTE := Convert_To_Byte(WEEK_DATABASE)
+// 	WRITE_FILE(DAY_DATA_AS_BYTE)
+// 	fmt.Println("<< Updated! >>")
+// }
 
 func Question(question string) float64 {
 start:
@@ -105,89 +100,98 @@ start:
 /* CALCULATIONS */
 var currentTime = time.Now()
 var currentMonth = currentTime.Month().String()
+var HOURS float64 = 0
+var INCOME float64 = 0
+var PETROL float64 = 0
+var CASH float64 = 0
 
-var WEEK_DATABASE []week_day
 
-func CALCULATE_HOURS() float64 {
-	var currentWeekHours float64 = 0
-	for i := 0; i < len(WEEK_DATABASE); i++ {
-		if WEEK_DATABASE[i].MONTH == currentMonth {
-			currentWeekHours += WEEK_DATABASE[i].HOURS
-		}
-	}
-	return currentWeekHours
-}
+// var WEEK_DATABASE []week_day
 
-func CALCULATE_INCOME() float64 {
-	var INCOME float64 = 0
-	for i := 0; i < len(WEEK_DATABASE); i++ {
-		if WEEK_DATABASE[i].MONTH == currentMonth {
-			INCOME += WEEK_DATABASE[i].INCOME
-		}
-	}
-	return INCOME
-}
+// func CALCULATE_HOURS() float64 {
+// 	var currentWeekHours float64 = 0
+// 	for i := 0; i < len(WEEK_DATABASE); i++ {
+// 		if WEEK_DATABASE[i].MONTH == currentMonth {
+// 			currentWeekHours += WEEK_DATABASE[i].HOURS
+// 		}
+// 	}
+// 	return currentWeekHours
+// }
 
-func CALCULATE_PETROL() float64 {
-	var PETROL float64 = 0
-	for i := 0; i < len(WEEK_DATABASE); i++ {
-		if WEEK_DATABASE[i].MONTH == currentMonth {
-			PETROL += WEEK_DATABASE[i].PETROL
-		}
-	}
-	return PETROL
-}
+// func CALCULATE_INCOME() float64 {
+// 	var INCOME float64 = 0
+// 	for i := 0; i < len(WEEK_DATABASE); i++ {
+// 		if WEEK_DATABASE[i].MONTH == currentMonth {
+// 			INCOME += WEEK_DATABASE[i].INCOME
+// 		}
+// 	}
+// 	return INCOME
+// }
 
-func CALCULATE_CASH() float64 {
-	var CASH float64 = 0
-	for i := 0; i < len(WEEK_DATABASE); i++ {
-		if WEEK_DATABASE[i].MONTH == currentMonth {
-			CASH += WEEK_DATABASE[i].CASH
-		}
-	}
-	return CASH
-}
+// func CALCULATE_PETROL() float64 {
+// 	var PETROL float64 = 0
+// 	for i := 0; i < len(WEEK_DATABASE); i++ {
+// 		if WEEK_DATABASE[i].MONTH == currentMonth {
+// 			PETROL += WEEK_DATABASE[i].PETROL
+// 		}
+// 	}
+// 	return PETROL
+// }
 
-func CALCULATE_REVENUE() float64 {
+// func CALCULATE_CASH() float64 {
+// 	var CASH float64 = 0
+// 	for i := 0; i < len(WEEK_DATABASE); i++ {
+// 		if WEEK_DATABASE[i].MONTH == currentMonth {
+// 			CASH += WEEK_DATABASE[i].CASH
+// 		}
+// 	}
+// 	return CASH
+// }
 
-	INCOME := CALCULATE_INCOME()
-	fmt.Println("-----------------", INCOME)
-	CASH := CALCULATE_CASH()
-	fmt.Println("-----------------", CASH)
-	INCOME_AFTER_CASH := INCOME - CASH
-	fmt.Println("-----------------", INCOME_AFTER_CASH)
-	TAX := 0.2 * INCOME_AFTER_CASH
-	fmt.Println("-----------------", TAX)
-	REVENUE := INCOME_AFTER_CASH - TAX
-	fmt.Println("-----------------", REVENUE)
-	PETROL := CALCULATE_PETROL()
+// func CALCULATE_REVENUE() float64 {
 
-	return REVENUE - PETROL
-}
+// 	INCOME := CALCULATE_INCOME()
+// 	fmt.Println("-----------------", INCOME)
+// 	CASH := CALCULATE_CASH()
+// 	fmt.Println("-----------------", CASH)
+// 	INCOME_AFTER_CASH := INCOME - CASH
+// 	fmt.Println("-----------------", INCOME_AFTER_CASH)
+// 	TAX := 0.2 * INCOME_AFTER_CASH
+// 	fmt.Println("-----------------", TAX)
+// 	REVENUE := INCOME_AFTER_CASH - TAX
+// 	fmt.Println("-----------------", REVENUE)
+// 	PETROL := CALCULATE_PETROL()
 
-func CALCULATE_PER_HOUR() float64 {
-	HOURS := CALCULATE_HOURS()
-	REVENUE := CALCULATE_REVENUE()
-	PER_HOUR := REVENUE / HOURS
+// 	return REVENUE - PETROL
+// }
 
-	return PER_HOUR
-}
+// func CALCULATE_PER_HOUR() float64 {
+// 	HOURS := CALCULATE_HOURS()
+// 	REVENUE := CALCULATE_REVENUE()
+// 	PER_HOUR := REVENUE / HOURS
+
+// 	return PER_HOUR
+// }
 
 func PRINT_STATISTICS() {
-	
-	fmt.Println("<< VK BOLT COURIER CALCULATOR >>")
-	HOURS := CALCULATE_HOURS()
-	fmt.Println("-> ", TWO_DECIMAL_POINTS(HOURS), "HOURS per month")
-	PETROL := CALCULATE_PETROL()
-	fmt.Println("-> PETROL: ", TWO_DECIMAL_POINTS(PETROL), "EURS per month")
-	INCOME := CALCULATE_INCOME()
-	fmt.Println("-> INCOME: ", TWO_DECIMAL_POINTS(INCOME), "EUR per month")
-	CASH := CALCULATE_CASH()
-	fmt.Println("-> +", TWO_DECIMAL_POINTS(CASH), "CASH per month")
-	REVENUE := CALCULATE_REVENUE()
-	fmt.Println("-> +", TWO_DECIMAL_POINTS(REVENUE), "REVENUE per month")
-	PER_HOURS := CALCULATE_PER_HOUR()
-	fmt.Println("-> ", TWO_DECIMAL_POINTS(PER_HOURS), "EUR/H")
+	fmt.Println()
+	fmt.Println("<<___________ VK BOLT COURIER CALCULATOR v1 ___________>")
+	fmt.Println()
+
+	INCOME_TAXED := INCOME - CASH
+	fmt.Println("TAXABLE INCOME: ", TWO_DECIMAL_POINTS(INCOME), " - ", TWO_DECIMAL_POINTS(CASH), "=", TWO_DECIMAL_POINTS(INCOME_TAXED), "EUR")
+
+	TAX := INCOME_TAXED * 0.2
+	fmt.Println("TAX: ", TWO_DECIMAL_POINTS(INCOME_TAXED), " * ", 0.2, "=", TWO_DECIMAL_POINTS(TAX), "EUR")
+
+	INCOME_AFTER_TAX := INCOME_TAXED - TAX
+	fmt.Println("INCOME AFTER TAX: ", TWO_DECIMAL_POINTS(INCOME_TAXED), " - ", TWO_DECIMAL_POINTS(TAX), "=", TWO_DECIMAL_POINTS(INCOME_AFTER_TAX), "EUR")
+
+	REVENUE := (INCOME_AFTER_TAX - PETROL) + CASH
+	fmt.Println("REVENUE: (",TWO_DECIMAL_POINTS(INCOME_AFTER_TAX), " - ", TWO_DECIMAL_POINTS(PETROL), ") + ", TWO_DECIMAL_POINTS(CASH), "=", TWO_DECIMAL_POINTS(REVENUE), "EUR")
+
+	PER_HOUR := REVENUE/HOURS
+	fmt.Println("PER HOUR: ", TWO_DECIMAL_POINTS(REVENUE), "/", TWO_DECIMAL_POINTS(HOURS), "=", TWO_DECIMAL_POINTS(PER_HOUR), "EUR/H")
 
 }
 
@@ -212,19 +216,19 @@ var HOURS_TODAY float64
 var CASH_TODAY float64
 var MONTH_TODAY string
 
-func CONSTRUCT_DAY_TRANSACTIONS() week_day {
+// func CONSTRUCT_DAY_TRANSACTIONS() week_day {
 
-	return week_day{
-		ID:      Get_Unique_ID(WEEK_DATABASE),
-		DATE:    Get_Current_Time("15:04 (02.01.2006)"),
-		INCOME:  INCOME_TODAY,
-		PETROL:  PETROL_TODAY,
-		REVENUE: REVENUE_TODAY,
-		HOURS:   HOURS_TODAY,
-		CASH:    CASH_TODAY,
-		MONTH:   GET_MONTH_NAME(),
-	}
-}
+// 	return week_day{
+// 		ID:      Get_Unique_ID(WEEK_DATABASE),
+// 		DATE:    Get_Current_Time("15:04 (02.01.2006)"),
+// 		INCOME:  INCOME_TODAY,
+// 		PETROL:  PETROL_TODAY,
+// 		REVENUE: REVENUE_TODAY,
+// 		HOURS:   HOURS_TODAY,
+// 		CASH:    CASH_TODAY,
+// 		MONTH:   GET_MONTH_NAME(),
+// 	}
+// }
 
 func GET_MONTH_NAME() string {
 	currentTime := time.Now()
