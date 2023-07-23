@@ -2,40 +2,36 @@ package main
 
 import (
 	"bufio"
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
 	"strings"
-	"time"
 )
 
-var DB_URL = "./week.json"
+const (
+	Reset  = "\033[0m"
+	Red    = "\033[31m"
+	Green  = "\033[32m"
+	Yellow = "\033[33m"
+	Blue   = "\033[34m"
+	Purple = "\033[35m"
+	Cyan   = "\033[36m"
+	Gray   = "\033[37m"
+)
 
 func main() {
-
-	// CHECK_JSON()
-
-	// Open data
-	// WEEK_DATABASE = OPEN_JSON()
-
-	// Start commandline
 	CL()
-
 }
 
-/******************************************************************************/
 /* COMMANDS */
 
 func CL() {
 
 	PRINT_STATISTICS()
 
-	fmt.Println("\n\n<< COMMANDS: add | q >>")
+	fmt.Println(Cyan + "\n<< COMMANDS: add | q >>" + Reset)
 	fmt.Print("=> ")
 
 	reader := bufio.NewReader(os.Stdin)
@@ -59,23 +55,13 @@ func CL() {
 func Add() {
 
 	INCOME = Question("Income: ")
-
 	CASH = Question("Cash: ")
-
 	PETROL = Question("Petrol: ")
-
 	HOURS = Question("Hours: ")
+	Clear_Screen()
 
 	CL()
 }
-
-// func Save() {
-// 	DAY_DATA := CONSTRUCT_DAY_TRANSACTIONS()
-// 	WEEK_DATABASE = append(WEEK_DATABASE, DAY_DATA)
-// 	DAY_DATA_AS_BYTE := Convert_To_Byte(WEEK_DATABASE)
-// 	WRITE_FILE(DAY_DATA_AS_BYTE)
-// 	fmt.Println("<< Updated! >>")
-// }
 
 func Question(question string) float64 {
 start:
@@ -96,158 +82,38 @@ start:
 	return floatValue
 }
 
-/******************************************************************************/
 /* CALCULATIONS */
-var currentTime = time.Now()
-var currentMonth = currentTime.Month().String()
 var HOURS float64 = 0
 var INCOME float64 = 0
 var PETROL float64 = 0
 var CASH float64 = 0
 
-
-// var WEEK_DATABASE []week_day
-
-// func CALCULATE_HOURS() float64 {
-// 	var currentWeekHours float64 = 0
-// 	for i := 0; i < len(WEEK_DATABASE); i++ {
-// 		if WEEK_DATABASE[i].MONTH == currentMonth {
-// 			currentWeekHours += WEEK_DATABASE[i].HOURS
-// 		}
-// 	}
-// 	return currentWeekHours
-// }
-
-// func CALCULATE_INCOME() float64 {
-// 	var INCOME float64 = 0
-// 	for i := 0; i < len(WEEK_DATABASE); i++ {
-// 		if WEEK_DATABASE[i].MONTH == currentMonth {
-// 			INCOME += WEEK_DATABASE[i].INCOME
-// 		}
-// 	}
-// 	return INCOME
-// }
-
-// func CALCULATE_PETROL() float64 {
-// 	var PETROL float64 = 0
-// 	for i := 0; i < len(WEEK_DATABASE); i++ {
-// 		if WEEK_DATABASE[i].MONTH == currentMonth {
-// 			PETROL += WEEK_DATABASE[i].PETROL
-// 		}
-// 	}
-// 	return PETROL
-// }
-
-// func CALCULATE_CASH() float64 {
-// 	var CASH float64 = 0
-// 	for i := 0; i < len(WEEK_DATABASE); i++ {
-// 		if WEEK_DATABASE[i].MONTH == currentMonth {
-// 			CASH += WEEK_DATABASE[i].CASH
-// 		}
-// 	}
-// 	return CASH
-// }
-
-// func CALCULATE_REVENUE() float64 {
-
-// 	INCOME := CALCULATE_INCOME()
-// 	fmt.Println("-----------------", INCOME)
-// 	CASH := CALCULATE_CASH()
-// 	fmt.Println("-----------------", CASH)
-// 	INCOME_AFTER_CASH := INCOME - CASH
-// 	fmt.Println("-----------------", INCOME_AFTER_CASH)
-// 	TAX := 0.2 * INCOME_AFTER_CASH
-// 	fmt.Println("-----------------", TAX)
-// 	REVENUE := INCOME_AFTER_CASH - TAX
-// 	fmt.Println("-----------------", REVENUE)
-// 	PETROL := CALCULATE_PETROL()
-
-// 	return REVENUE - PETROL
-// }
-
-// func CALCULATE_PER_HOUR() float64 {
-// 	HOURS := CALCULATE_HOURS()
-// 	REVENUE := CALCULATE_REVENUE()
-// 	PER_HOUR := REVENUE / HOURS
-
-// 	return PER_HOUR
-// }
-
 func PRINT_STATISTICS() {
+
 	fmt.Println()
-	fmt.Println("<<___________ VK BOLT COURIER CALCULATOR v1 ___________>")
+	fmt.Println(Cyan + "<<___________ VK BOLT COURIER CALCULATOR v1 ___________>" + Reset)
 	fmt.Println()
 
 	INCOME_TAXED := INCOME - CASH
-	fmt.Println("TAXABLE INCOME: ", TWO_DECIMAL_POINTS(INCOME), " - ", TWO_DECIMAL_POINTS(CASH), "=", TWO_DECIMAL_POINTS(INCOME_TAXED), "EUR")
+	fmt.Println(Cyan + "TAXABLE INCOME: " + Reset + Green + TWO_DECIMAL_POINTS(INCOME) + Reset + " - " + Green + TWO_DECIMAL_POINTS(CASH) + Reset + " = " + Reset + Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + " EUR" + Reset)
 
 	TAX := INCOME_TAXED * 0.2
-	fmt.Println("TAX: ", TWO_DECIMAL_POINTS(INCOME_TAXED), " * ", 0.2, "=", TWO_DECIMAL_POINTS(TAX), "EUR")
+	fmt.Println(Cyan + "TAX: " + Reset + Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + " * " + Red + "0.2" + Reset + " = " + Red + TWO_DECIMAL_POINTS(TAX) + " EUR" + Reset)
 
 	INCOME_AFTER_TAX := INCOME_TAXED - TAX
-	fmt.Println("INCOME AFTER TAX: ", TWO_DECIMAL_POINTS(INCOME_TAXED), " - ", TWO_DECIMAL_POINTS(TAX), "=", TWO_DECIMAL_POINTS(INCOME_AFTER_TAX), "EUR")
+	fmt.Println(Cyan + "INCOME AFTER TAX: " + Reset, TWO_DECIMAL_POINTS(INCOME_TAXED), " - " + Reset, Red + TWO_DECIMAL_POINTS(TAX) + Reset, "=", Green + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX), " EUR" + Reset)
 
 	REVENUE := (INCOME_AFTER_TAX - PETROL) + CASH
-	fmt.Println("REVENUE: (",TWO_DECIMAL_POINTS(INCOME_AFTER_TAX), " - ", TWO_DECIMAL_POINTS(PETROL), ") + ", TWO_DECIMAL_POINTS(CASH), "=", TWO_DECIMAL_POINTS(REVENUE), "EUR")
+	fmt.Println(Cyan + "REVENUE: " + Reset + "(" + Green + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX) + Reset + " - " + Red + TWO_DECIMAL_POINTS(PETROL) + Reset + ")" + " + " + Green + TWO_DECIMAL_POINTS(CASH) + Reset + " = " + Green + TWO_DECIMAL_POINTS(REVENUE) + "EUR" + Reset)
 
-	PER_HOUR := REVENUE/HOURS
-	fmt.Println("PER HOUR: ", TWO_DECIMAL_POINTS(REVENUE), "/", TWO_DECIMAL_POINTS(HOURS), "=", TWO_DECIMAL_POINTS(PER_HOUR), "EUR/H")
+	PER_HOUR := REVENUE / HOURS
+	fmt.Println(Cyan + "PER HOUR: " + Reset + Green + TWO_DECIMAL_POINTS(REVENUE) + Reset + "/" + Purple + TWO_DECIMAL_POINTS(HOURS) + Reset + " = " + Green + TWO_DECIMAL_POINTS(PER_HOUR) + "EUR/H" + Reset)
 
+	fmt.Println(Cyan + "_____________________________________________________" + Reset)
+	fmt.Println(Red+"PROFIT: "+Reset, Yellow+TWO_DECIMAL_POINTS(REVENUE)+Reset, Green+"EUR ("+Reset, Yellow+TWO_DECIMAL_POINTS(PER_HOUR)+Reset, Green+"EUR/H)"+Reset)
 }
 
-/******************************************************************************/
-
-type week_day struct {
-	ID       int     `json:"id"`
-	DATE     string  `json:"date"`
-	INCOME   float64 `json:"income"`
-	PETROL   float64 `json:"petrol"`
-	REVENUE  float64 `json:"revenue"`
-	HOURS    float64 `json:"hours"`
-	CASH     float64 `json:"cash"`
-	PER_HOUR float64 `json:"per_hour"`
-	MONTH    string  `json:"month"`
-}
-
-var INCOME_TODAY float64
-var PETROL_TODAY float64
-var REVENUE_TODAY float64
-var HOURS_TODAY float64
-var CASH_TODAY float64
-var MONTH_TODAY string
-
-// func CONSTRUCT_DAY_TRANSACTIONS() week_day {
-
-// 	return week_day{
-// 		ID:      Get_Unique_ID(WEEK_DATABASE),
-// 		DATE:    Get_Current_Time("15:04 (02.01.2006)"),
-// 		INCOME:  INCOME_TODAY,
-// 		PETROL:  PETROL_TODAY,
-// 		REVENUE: REVENUE_TODAY,
-// 		HOURS:   HOURS_TODAY,
-// 		CASH:    CASH_TODAY,
-// 		MONTH:   GET_MONTH_NAME(),
-// 	}
-// }
-
-func GET_MONTH_NAME() string {
-	currentTime := time.Now()
-	return currentTime.Month().String()
-}
-
-/******************************************************************************/
-
-func READ_FILE() []byte {
-	file, err := ioutil.ReadFile(DB_URL)
-	Error(err, "ReadFile")
-	return file
-}
-
-func WRITE_FILE(dataBytes []byte) {
-
-	var err = ioutil.WriteFile(DB_URL, dataBytes, 0644)
-	Error(err, "WriteToFile")
-}
+/* Help */
 
 func Error(err error, location string) {
 	if err != nil {
@@ -255,28 +121,6 @@ func Error(err error, location string) {
 		fmt.Println(err.Error())
 
 	}
-}
-
-func Get_Unique_ID(data []week_day) int {
-
-	if len(data) == 0 {
-		return 1
-	}
-
-	return data[len(data)-1].ID + 1
-}
-
-func Get_Current_Time(format string) string {
-	TimeNow := time.Now()
-	FormattedTimeNow := TimeNow.Format(format)
-	return FormattedTimeNow
-}
-
-func Convert_To_Byte(data interface{}) []byte {
-	dataBytes, err := json.MarshalIndent(data, "", "  ")
-	Error(err, "Convert_To_Byte")
-
-	return dataBytes
 }
 
 func Quit(clear string) {
@@ -305,13 +149,6 @@ func TWO_DECIMAL_POINTS(number float64) string {
 	return fmt.Sprintf("%.2f", number)
 }
 
-func CHECK_JSON() {
-
-	if _, err := os.Stat(DB_URL); errors.Is(err, os.ErrNotExist) {
-		WRITE_FILE([]byte("[]"))
-	}
-}
-
 func Convert_CRLF_To_LF(reader *bufio.Reader) string {
 
 	// Read the answer
@@ -321,22 +158,4 @@ func Convert_CRLF_To_LF(reader *bufio.Reader) string {
 	input = strings.Replace(input, "\r\n", "", -1) /* "\r\n" was before.  */
 
 	return input
-}
-
-func OPEN_JSON() []week_day {
-
-	file := READ_FILE()
-	data := CONVERT_TO_WEEK_DAY(file)
-
-	return data
-}
-
-func CONVERT_TO_WEEK_DAY(file []byte) []week_day {
-
-	a := []week_day{}
-
-	err := json.Unmarshal(file, &a)
-	Error(err, "CONVERT_TO_WEEK_DAY")
-
-	return a
 }
