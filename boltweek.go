@@ -95,29 +95,45 @@ func PRINT_STATISTICS() {
 	fmt.Println()
 
 	INCOME_TAXED := INCOME - CASH
-
 	fmt.Println(Cyan + "TAXABLE INCOME" + Reset + " = " + Green + "(INCOME" + Reset + " - " + Green + "CASH)" + Reset)
-	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(INCOME) + Reset + " - " + Green + TWO_DECIMAL_POINTS(CASH) + Reset + " = " + Reset + Yellow + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + Green + " EUR" + Reset)
+	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(INCOME) + Reset + " - " + Green + TWO_DECIMAL_POINTS(CASH) + Reset)
+	fmt.Println(Cyan + "                        _____________________________" + Reset)
+	fmt.Println("                                            " + Yellow + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + Green + " EUR" + Reset)
 	fmt.Println(Cyan + "_____________________________________________________" + Reset)
 
 	TAX := INCOME_TAXED * 0.2
+	fmt.Println()
 	fmt.Println(Cyan + "TAX" + Reset + " = " + Green + "(TAXABLE INCOME" + Reset + " * " + Red + "0.2)" + Reset)
-	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + " * " + Red + "0.2" + Reset + " = " + Red + TWO_DECIMAL_POINTS(TAX) + " EUR" + Reset)
+	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + " * " + Red + "0.2" + Reset)
+	fmt.Println(Cyan + "                        _____________________________" + Reset)
+	fmt.Println("                                            " + Red + TWO_DECIMAL_POINTS(TAX) + " EUR" + Reset)
 	fmt.Println(Cyan + "_____________________________________________________" + Reset)
 
 	INCOME_AFTER_TAX := INCOME_TAXED - TAX
+	fmt.Println()
 	fmt.Println(Cyan + "INCOME AFTER TAX" + Reset + " = " + Green + "(TAXED INCOME" + Reset + " - " + Green + "TAX)" + Reset)
-	fmt.Println(Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + " - " + Reset + Red + TWO_DECIMAL_POINTS(TAX) + Reset + " = " + Yellow + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX) + Reset + Green + " EUR" + Reset)
+	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(INCOME_TAXED) + Reset + " - " + Reset + Red + TWO_DECIMAL_POINTS(TAX) + Reset)
+	fmt.Println(Cyan + "                        _____________________________" + Reset)
+	fmt.Println("                                            " + Yellow + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX) + Reset + Green + " EUR" + Reset)
 	fmt.Println(Cyan + "_____________________________________________________" + Reset)
+
 	REVENUE := (INCOME_AFTER_TAX - PETROL) + CASH
+	fmt.Println()
 	fmt.Println(Cyan + "REVENUE" + Reset + " = " + "(" + Green + "INCOME AFTER TAX" + Reset + " - " + Red + "PETROL" + Reset + ")" + " + " + Green + "CASH" + Reset)
-	fmt.Println("(" + Green + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX) + Reset + " - " + Red + TWO_DECIMAL_POINTS(PETROL) + Reset + ")" + " + " + Green + TWO_DECIMAL_POINTS(CASH) + Reset + " = " + Green + TWO_DECIMAL_POINTS(REVENUE) + "EUR" + Reset)
+	fmt.Println("-> " + "(" + Green + TWO_DECIMAL_POINTS(INCOME_AFTER_TAX) + Reset + " - " + Red + TWO_DECIMAL_POINTS(PETROL) + Reset + ")" + " + " + Green + TWO_DECIMAL_POINTS(CASH) + Reset)
+	fmt.Println(Cyan + "                        _____________________________" + Reset)
+	fmt.Println("                                            " + Yellow + TWO_DECIMAL_POINTS(REVENUE) + Reset + Green + " EUR" + Reset)
+	fmt.Println(Cyan + "_____________________________________________________" + Reset)
 
 	PER_HOUR := REVENUE / HOURS
-	fmt.Println(Cyan + "PER HOUR: " + Reset + Green + TWO_DECIMAL_POINTS(REVENUE) + Reset + "/" + Purple + TWO_DECIMAL_POINTS(HOURS) + Reset + " = " + Green + TWO_DECIMAL_POINTS(PER_HOUR) + "EUR/H" + Reset)
-
+	fmt.Println()
+	fmt.Println(Cyan + "PER HOUR" + Reset + " = " + Green + "REVENUE" + Reset + "/" + Green + "HOURS" + Reset)
+	fmt.Println("-> " + Green + TWO_DECIMAL_POINTS(REVENUE) + Reset + "/" + Purple + TWO_DECIMAL_POINTS(HOURS) + Reset)
+	fmt.Println(Cyan + "                        _____________________________" + Reset)
+	fmt.Println("                                            " + Yellow + TWO_DECIMAL_POINTS(PER_HOUR) + Reset + Green + " EUR/H" + Reset)
 	fmt.Println(Cyan + "_____________________________________________________" + Reset)
-	fmt.Println(Red+"PROFIT: "+Reset, Yellow+TWO_DECIMAL_POINTS(REVENUE)+Reset, Green+"EUR ("+Reset, Yellow+TWO_DECIMAL_POINTS(PER_HOUR)+Reset, Green+"EUR/H)"+Reset)
+
+	fmt.Println(Red + "PROFIT SUMMARY: " + Reset + Yellow + TWO_DECIMAL_POINTS(REVENUE) + Reset + Green + " EUR" + Reset + " (" + Yellow + TWO_DECIMAL_POINTS(PER_HOUR) + Reset + Green + " EUR/H" + Reset + ")")
 }
 
 /* Help */
